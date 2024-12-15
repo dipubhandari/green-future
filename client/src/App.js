@@ -1,0 +1,113 @@
+import "./App.css";
+import AnalyzerHome from "./pages/AnalyzerHome/AnalyzerHome";
+import Login from "./pages/Login/Login";
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import CreateAccount from "./pages/CreateAccount/Signup";
+import { server } from "./config";
+import { useDispatch, useSelector } from "react-redux";
+import { isLogin } from "./redux/authSlice";
+import { account } from "./redux/accountSlice";
+import Select from "./pages/SelectAccount/Select";
+import axios from "axios";
+import PostIdea from "./pages/PostIdea/PostIdea";
+import IdeatorHome from "./pages/IdeatorHome/IdeatorHome";
+import Goal from "./pages/OurGoals/Goals";
+import ContactUs from "./pages/ContactUs/ContactUs";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+
+function App() {
+  // getting the user info from store
+  // const Account = useSelector((state) => state.Account);
+  const isAuth = useSelector((state) => state.isLogin);
+  const [userType, setUserType] = useState('Common User')
+  const dispatch = useDispatch();
+
+
+  // checking if the user is logged in or not
+  useEffect(() => {
+    async function checkLogin() {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.post(`${server}/checklogin`, { token }).then((data) => {
+          dispatch(isLogin(data.data.isLogin));
+          if (data.data.user) {
+            console.log(JSON.parse(localStorage.getItem('user')).userType);
+            const currentUser = JSON.parse(localStorage.getItem('user')).userType || "Common User"
+            setUserType(currentUser)
+            dispatch(account(data.data.user.accountType));
+          } else {
+            dispatch(account("N/A"));
+          }
+        });
+      } else {
+        dispatch(isLogin(false));
+      }
+    }
+    checkLogin();
+  }, []);
+  // checking if the user is logged in or not
+
+  return (
+    <>
+      <section className="AppContainer">
+        <Header/>
+        <Routes>
+          {/* homepage */}
+          <Route
+            path="/"
+            element={
+              userType == "ideator" ? (
+                <IdeatorHome />
+              ) : (
+                <AnalyzerHome isLogin={isAuth} />
+              )
+            }
+          />
+          <Route
+            path="/homepage"
+            element={
+              userType == "ideator" ? (
+                <IdeatorHome />
+              ) : (
+                <AnalyzerHome isLogin={isAuth} />
+              )
+            }
+          />
+          {/* homepage here */}
+
+          {/* accoutn selection when signup */}
+          <Route path="/select_Account_Type" element={<Select />} />
+
+          <Route path="/login" element={<Login />} />
+          {/* login */}
+          {/* contact us route */}
+          <Route path="/contact-us" element={<ContactUs/>} />
+
+          {/* signup for new employer */}
+          <Route path="/create-new-user" element={<CreateAccount />} />
+          {/* signup for new employer  herer*/}
+
+          {/* if usertype is ideator then show post idea button otherwise not */}
+        
+            <Route
+              path="/post-idea"
+              element={isAuth ? <PostIdea /> : <Login />}
+            />
+       
+
+
+          {/* routes for jobseeker profile */}
+        
+          <Route path="/our-goal" element={<Goal/>} />
+          <Route path="*" element="PAGE NOT FOUND" />
+        </Routes>
+        <Footer/>
+      </section>
+    </>
+  );
+}
+
+export default App;
