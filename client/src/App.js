@@ -17,6 +17,8 @@ import Goal from "./pages/OurGoals/Goals";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import IdeaDetail from "./components/IdeaDetail/IdeaDetail";
+import Vote from "./components/Vote/Vote";
 
 function App() {
   // getting the user info from store
@@ -102,6 +104,8 @@ function App() {
           {/* routes for jobseeker profile */}
         
           <Route path="/our-goal" element={<Goal/>} />
+          <Route path="vote-idea/:id" element={<Vote/>}/>
+          <Route path="/idea-detail/:ideaId" element={<IdeaDetail/>} />
           <Route path="*" element="PAGE NOT FOUND" />
         </Routes>
         <Footer/>

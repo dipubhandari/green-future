@@ -44,7 +44,7 @@ const HomeIdea = () => {
           {latestIdea.map((item, id) => {
             return (
           
-              <section className="idea_Card" key={id}>
+              <Link to={`/idea-detail/${item.id}`} className="idea_Card" key={id}>
 
              <div className="top_idea_card">
              <section className="ideator_logo">
@@ -95,7 +95,7 @@ const HomeIdea = () => {
                  </span>
                 </NavLink>
               </div>
-              </section>
+              </Link>
                
             
             );
