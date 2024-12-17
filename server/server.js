@@ -10,7 +10,6 @@ import mongoose from 'mongoose'
 import postRoutes from './routes/postRoutes.js'
 import categoryRoutes from './routes/categoryRoute.js'
 import path from 'path'
-import chatRoutes from './routes/chatRoute.js'
 
 
 // instance
@@ -39,7 +38,6 @@ app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000
 app.use('/', userRoutes)
 app.use('/', categoryRoutes)
 app.use('/', postRoutes)
-app.use('/api/chat', chatRoutes)
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), "./build/index.html"))

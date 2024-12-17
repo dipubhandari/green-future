@@ -13,7 +13,15 @@ const PostIdea = () => {
     const [token, setToken] = useState('')
     const [Feature, setFeature] = useState([])
     // state for input for idea post of the form
-    const [input, setInput] = useState({})
+    const [input, setInput] = useState({
+       ideator : localStorage.getItem('token')
+    })
+
+    useEffect(()=>{
+        const currentUser = localStorage.getItem('token')
+        
+
+    })
     // handle input from fields
     const handleInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -30,13 +38,10 @@ const PostIdea = () => {
         }
         else {
             //  sending post request to the database
-            let ideator = JSON.parse(localStorage.getItem('user'))
-            console.log(ideator._id);
-            setInput({ ...input,ideator: ideator._id})
             await axios.post(`${server}/post-idea`, input).then(response => {
                 if (response.data.success) {
                     setInput({})
-                    toast.success('You Posted a Job');
+                    toast.success('You Posted Idea Successfully');
                 }
             })
         }
@@ -66,6 +71,7 @@ const PostIdea = () => {
                          <section className="category_section">
                             <label htmlFor="">Select Idea Category</label>
                             <select name='ideaCategory' id='' onChange={handleInput}>
+                            <option value="" style={{backgroundColor:'blue',color:"white"}}>Select Category of your idea</option>
                                 {
                                     Category.map((item, id) => {
                                         return <option value={`${item.category}`}>{item.category}</option>

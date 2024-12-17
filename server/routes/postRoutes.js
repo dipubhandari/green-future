@@ -5,7 +5,10 @@ const postRoutes = express.Router()
 
 
 postRoutes.post('/post-idea', IdeaPostController.IdeaPost)
-// postRoutes.get('/all-ideas', IdeaPostController.IdeaApi)
+postRoutes.get('/idea-detail/:id', IdeaPostController.IdeaDetail)
+
+postRoutes.get('/all-ideas', IdeaPostController.IdeaApi)
+postRoutes.get('/delete-idea', IdeaPostController.deleteIdea)
 
 
 export default postRoutes

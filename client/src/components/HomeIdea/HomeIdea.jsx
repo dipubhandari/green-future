@@ -10,27 +10,28 @@ import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
-import Ideas from "../../utils/dummyData";
+// import Ideas from "../../utils/dummyData";
 import { AiFillLike } from "react-icons/ai";
 import { AiFillDislike } from "react-icons/ai";
 import { HiEye } from "react-icons/hi2";
-
+import {images} from '../../utils/image'
 const HomeIdea = () => {
  
-  const [latestIdea, setLatestIdea] = useState(Ideas);
-
+  const [latestIdea, setLatestIdea] = useState({});
+  const [totalVotes, setTotalVotes] = useState(0)
   useEffect(() => {
-   console.log(Ideas[0]);
     // fetching latest job
-    // const latestJob = async () => {
-    //   const posts = await axios
-    //     .get(`${server}/api/jobpost`)
-    //     .then((response) => {
-    //       setLatestIdea(Ideas);
-    //     //   console.log();
-    //     });
-    // };
-    // latestJob();
+    const latestJob = async () => {
+      const posts = await axios
+        .get(`${server}/all-ideas`)
+        .then((response) => {
+          console.log(response.data);
+          setLatestIdea(response.data);
+          console.log(response.data[0].votedBy.length);
+          setTotalVotes(response.data)
+        });
+    };
+    latestJob();
   }, []);
 
   return (
@@ -40,27 +41,32 @@ const HomeIdea = () => {
       </h4>
 
       <div className="idea_container">
-        <section className="idea_content">
+        {
+          (latestIdea.length > 0)
+          ?
+          <section className="idea_content">
           {latestIdea.map((item, id) => {
+            let count = Math.floor(Math.random() * 10) + 1;
             return (
           
-              <Link to={`/idea-detail/${item.id}`} className="idea_Card" key={id}>
+              <Link to={`/idea-detail/${item.
+              _id}`} className="idea_Card" key={id}>
 
              <div className="top_idea_card">
              <section className="ideator_logo">
                   {/* <img src={`${server}/uploads/logo/${item.logo}`} alt="" /> */}
-                  <img src={item.image} alt="LOADING" />
+                  <img src={images[count]} />
               
                 </section>
 
                 <section className="idea_category">
-                  <h6 className="name">Idea Title :{item.ideator}</h6>
-                  <span className="ideatitle">Idea Category: {item.topic}</span>
-                  <span className="ideaLocation">Posted By: {item.postedBy}</span>
+                  <h6 className="ideaTitle">Idea Title :{item.ideaTitle}</h6>
+                  <span className="ideaTitle">Idea Category: {item.ideaCategory}</span>
+                  <span className="ideaTitle">Posted By: {item.ideatorName}</span>
                   <span className="view_more">View Idea...</span>
                   <span className="idea_record">
-                 <span> <AiFillLike/> {item.likes}</span>
-                  <span> <AiFillDislike/>{item.dislikes}</span>
+                 <span> <AiFillLike/> {item.likes.length}</span>
+                  <span> <AiFillDislike/>{item.dislikes.length}</span>
                   <span className="eye"> <HiEye/>{item.views}</span>
                   </span>
                 </section>
@@ -72,7 +78,7 @@ const HomeIdea = () => {
                 >
                   <span className="rate_on">Innovative</span> 
                   <span className="stars">
-                    {item.rating.innovative}
+                    {item.innovative}/ {item.votedBy.length}
                     </span>
                 </NavLink>
                 <NavLink
@@ -82,7 +88,7 @@ const HomeIdea = () => {
                 <span className="rate_on">Uniqueness</span> 
                 <span className="stars">
                   
-                    {item.rating.uniqueness}
+                    {item.uniqueness} / {item.votedBy.length}
                   
                 </span>
                 </NavLink>
@@ -91,7 +97,7 @@ const HomeIdea = () => {
                   className="idea_rating"
                 >
                  <span className="rate_on">Effectiveness</span> 
-                 <span className="stars">                    {item.rating.effectiveness}
+                 <span className="stars">                    {item.effectiveness} / {item.votedBy.length}
                  </span>
                 </NavLink>
               </div>
@@ -101,6 +107,9 @@ const HomeIdea = () => {
             );
           })}{" "}
         </section>
+          :
+          "No Idea Posted Till Date"
+        }
       </div>
 
       <h4 className="viewbtn">

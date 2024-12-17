@@ -16,31 +16,31 @@ const IdeaDetail = () => {
 
     // 
     const dispatch = useDispatch()
-
     // post detail state
-    const [ideaDetail, setDetail] = useState({})
+    const [ideaDetail, setDetail] = useState({
+        votedBy:[],
+        likes:[],
+        dislikes:[],
+        _id:""
+    })
 
     // getting id from url
     const path = useLocation().pathname
-    // useEffect(() => {
-    //     const paths = path.split('/')
-    //     const token = paths[paths.length - 1]
-    //     console.log(token)
-    //     async function getDetails() {
-    //         await axios.get(`${server}/idea-post-detail/${token}`).then((response) => {
-    //             // console.log(first)
-    //             const data = { ...response.data.companydetail, ...response.data.ideadetail }
-    //             setDetail(data)
-    //             console.log(data)
-    //         }).catch(() => {
+    useEffect(() => {
+        const paths = path.split('/')
+        const id = paths[paths.length - 1]
+        async function getDetails() {
+            await axios.get(`${server}/idea-detail/${id}`).then((response) => {
+              setDetail(response.data)
+              console.log(response.data);
+            }).catch(() => {
 
-    //         })
-    //     }
-    //     getDetails()
+            })
+        }
+        getDetails()
 
-    //     console.log(ideaDetail)
 
-    // }, [])
+    }, [])
 
 
     return (
@@ -67,28 +67,28 @@ const IdeaDetail = () => {
                    {/* detail here */}
                  
           <div class="ideacontainer">
-        <h1 className='ideaDetailTitle'>Title of the idea</h1>
-        <p className='ideaDetailPara'>Here is the idea of the user </p>
+        <h1 className='ideaDetailTitle'>{ideaDetail.ideaTitle}</h1>
+        <p className='ideaDetailPara'>{ideaDetail.idea} </p>
 
         <div class="ideaCard">
             <div class="ideaCard-item">
                 <h3>Innovativeness</h3>
-                <p>10 out of 90</p>
+                <p>{ideaDetail.innovative} out of {ideaDetail.votedBy.length}</p>
             </div>
             <div class="ideaCard-item">
                 <h3>Effectiveness</h3>
-                <p>20 out of 100</p>
+                <p>{ideaDetail.effectiveness} out of {ideaDetail.votedBy.length}</p>
             </div>
             <div class="ideaCard-item">
                 <h3>Uniqueness</h3>
-                <p>40 out of 100</p>
+                <p>{ideaDetail.uniqueness} out of {ideaDetail.votedBy.length}</p>
             </div>
 
         </div>
         <br />
-                <p>This idea got 89 Likes, 76 dislikes and 90 views</p>
+                <p>This idea got {ideaDetail.likes.length} Likes, {ideaDetail.dislikes.length} dislikes and {ideaDetail.views} views</p>
         <br />
-        <Link to={`/vote-idea/1`} class="ideabutton">Vote This Idea</Link>
+        <Link to={`/vote-idea/${ideaDetail._id}`} class="ideabutton">Vote This Idea</Link>
 
     </div>
 

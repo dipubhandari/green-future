@@ -21,8 +21,8 @@ const CreateAccount = () => {
         else if (input.password.length < 8 || input.password.length > 16) {
             toast.warn('Password must between 8 to 16 character long')
         }
-        else if (input.description.length < 100) {
-            toast.warn('Description should at least 100 character long.')
+        else if (input.description.length < 50) {
+            toast.warn('Description should at least 50 character long.')
         }
         else {
             const formData = new FormData()

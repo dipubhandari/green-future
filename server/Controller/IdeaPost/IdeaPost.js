@@ -6,10 +6,6 @@ class IdeaPostController {
   static IdeaPost = async (req, res) => {
     // getting the data from frontend
     const { ideaTitle, idea, ideaCategory, ideator } = req.body;
-    console.log("this runs");
-
-    console.log(req.body);
-    console.log(req.body.ideator);
     // // validating the data
     if (
       !(
@@ -27,8 +23,9 @@ class IdeaPostController {
         ideaTitle,
         idea,
         ideaCategory,
-        ideator
-      });
+        ideatorId:ideator,
+        ideatorName:user.name
+           });
 
       if (post) {
         console.log('idea posted');
@@ -40,12 +37,32 @@ class IdeaPostController {
     }
   };
 
+
+static IdeaDetail = async(req,res) =>{
+  try {
+    const data = await IdeaModel.find({_id:req.params.id})
+    console.log(data[0]);
+    res.send(data[0])
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
   static IdeaApi = async (req, res) => {
     try {
       const AllIdeas = await IdeaModel.find()
+        AllIdeas.map(()=>{
+
+        })
       res.send(AllIdeas)
     } catch (error) {}
   };
+
+  static deleteIdea = async(req,res)=>{
+    await IdeaModel.deleteMany();
+         res.send("deleted")
+  }
 }
 
 export default IdeaPostController;

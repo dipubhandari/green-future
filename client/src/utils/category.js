@@ -4,27 +4,27 @@ const Category = [
     {
         id: 1,
         image: "https://pixabay.com/photos/white-flowers-flowers-nature-6944139/",
-        category: "Category Title 1",
+        category: "Sustainable Technology",
       },
       {
         id: 2,
         image: "https://pixabay.com/photos/white-flowers-flowers-nature-6944139/",
-        category: "Category Title 2",
+        category: "Energy Optimization",
       },
       {
         id: 3,
         image: "https://pixabay.com/photos/white-flowers-flowers-nature-6944139/",
-        category: "Category Title 3",
+        category: "Green Building Innovations",
       },
       {
         id: 4,
         image: "https://pixabay.com/photos/white-flowers-flowers-nature-6944139/",
-        category: "Category Title 4",
+        category: "Smart Systems",
       },
       {
         id: 5,
         image: "https://pixabay.com/photos/white-flowers-flowers-nature-6944139/",
-        category: "Category Title 5",
+        category: "Energy Management Solutions",
       },
 
   ];

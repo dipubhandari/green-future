@@ -17,29 +17,31 @@ const Vote = () => {
   const dispatch = useDispatch();
 
   // post detail state
-  const [ideaDetail, setDetail] = useState({});
+  const [ideaDetail, setDetail] = useState({
+    votedBy:[],
+    likes:[],
+    dislikes:[],
+    _id:""
+  });
 
   // getting id from url
-  const path = useLocation().pathname;
-  // useEffect(() => {
-  //     const paths = path.split('/')
-  //     const token = paths[paths.length - 1]
-  //     console.log(token)
-  //     async function getDetails() {
-  //         await axios.get(`${server}/idea-post-detail/${token}`).then((response) => {
-  //             // console.log(first)
-  //             const data = { ...response.data.companydetail, ...response.data.ideadetail }
-  //             setDetail(data)
-  //             console.log(data)
-  //         }).catch(() => {
+  // const path = useLocation().pathname;
+  const path = useLocation().pathname
+  useEffect(() => {
+      const paths = path.split('/')
+      const id = paths[paths.length - 1]
+      async function getDetails() {
+          await axios.get(`${server}/idea-detail/${id}`).then((response) => {
+            setDetail(response.data)
+            console.log(response.data);
+          }).catch(() => {
 
-  //         })
-  //     }
-  //     getDetails()
+          })
+      }
+      getDetails()
 
-  //     console.log(ideaDetail)
 
-  // }, [])
+  }, [])
 
   return (
     <div>
@@ -61,8 +63,8 @@ const Vote = () => {
           <h4 className="idea_summary_title">Vote This Idea</h4>
           {/* detail here */}
           <div class="ideacontainer">
-            <h1 className="ideaDetailTitleVote">Title of the idea</h1>
-            <p className="ideaDetailPara">Here is the idea of the user </p>
+            <h1 className="ideaDetailTitleVote">{ideaDetail.ideaTitle}</h1>
+            <p className="ideaDetailPara">{ideaDetail.idea} </p>
 
             <div class="ideaCard">
               <div class="ideaCard-itemVote">
