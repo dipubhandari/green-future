@@ -60,17 +60,26 @@ static IdeaDetail = async(req,res) =>{
   }
   static VoteIdea = async(req,res)=>{
   try {
-    console.log(req.body);
+    let countInnovative = 0
+    let countEffectiveness = 0
+    let countUniqueness = 0
+
     const {voter,idea,innovative,effectiveness,uniqueness} = req.body
-    // const increase
-    // const update = await IdeaModel.updateOne({ _id: idea }, { 
-    //   innovative,effectiveness,uniqueness,
-    
-    //  })
+  //  assigning value for counting votes
+  
+   if(innovative){ countInnovative = 1 } else{ countInnovative=0 }
+   if(effectiveness){ countEffectiveness = 1} else{ countEffectiveness =0}
+   if(uniqueness){ countUniqueness = 1 }else{ countUniqueness=0}
+
+   const ideaDetail = await IdeaModel.findOne({_id:idea})
+   console.log(ideaDetail);
+   console.log(ideaDetail.innovative);
+    const update = await IdeaModel.updateOne({ _id: idea }, { 
+      innovative:ideaDetail.innovative+countInnovative,effectiveness:ideaDetail.effectiveness+countEffectiveness,uniqueness:ideaDetail.uniqueness+countUniqueness,
+     })
     if (update) {
-        res.send({ success_msg: "Password is changed" })
+        res.send({ success_msg: "You voted successfully" })
     }
-    res.send("hello")
   } catch (error) {
     console.log(error);
   }
