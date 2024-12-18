@@ -21,12 +21,10 @@ import IdeaDetail from "./components/IdeaDetail/IdeaDetail";
 import Vote from "./components/Vote/Vote";
 
 function App() {
-  // getting the user info from store
-  // const Account = useSelector((state) => state.Account);
   const isAuth = useSelector((state) => state.isLogin);
   const [userType, setUserType] = useState('Common User')
   const dispatch = useDispatch();
-
+  const [isLogin,setIsLogin] = useState(true)
 
   // checking if the user is logged in or not
   useEffect(() => {
@@ -41,11 +39,11 @@ function App() {
             setUserType(currentUser)
             dispatch(account(data.data.user.accountType));
           } else {
-            dispatch(account("N/A"));
+            // dispatch(account("N/A"));
           }
         });
       } else {
-        dispatch(isLogin(false));
+        // dispatch(isLogin(false));
       }
     }
     checkLogin();
@@ -104,8 +102,8 @@ function App() {
           {/* routes for jobseeker profile */}
         
           <Route path="/our-goal" element={<Goal/>} />
-          <Route path="vote-idea/:id" element={<Vote/>}/>
-          <Route path="/idea-detail/:ideaId" element={<IdeaDetail/>} />
+          <Route path="vote-idea/:id" element={(isLogin)?<Vote/>:<Login/>}/>
+          <Route path="/idea-detail/:ideaId" element={(isLogin)?<IdeaDetail/>:<Login/>} />
           <Route path="*" element="PAGE NOT FOUND" />
         </Routes>
         <Footer/>

@@ -15,33 +15,60 @@ import "react-toastify/dist/ReactToastify.css";
 const Vote = () => {
   //
   const dispatch = useDispatch();
-
-  // post detail state
   const [ideaDetail, setDetail] = useState({
     votedBy:[],
     likes:[],
     dislikes:[],
     _id:""
   });
+  const [uniqueness,setUniqueness] = useState(false)
+  const [effectiveness,setEffectiveness] = useState(false)
+  const [innovative,setInnovative] = useState(false)
+  // when user clicks on submit button
+  const submitVote = async() =>{
+    const paths = path.split('/')
+    const id = paths[paths.length - 1]
+    console.log("this works");
+      console.log(innovative);
+      const data= {
+        uniqueness,effectiveness,innovative
+      }
+      const voter = localStorage.getItem('token')
+      data.voter = voter
+      data.idea = id
+      console.log(data);
+      await axios.post(`${server}/vote-idea`,data).then((response) => {
+        console.log("response aayyoooooo");
+      }).catch(() => {
 
-  // getting id from url
-  // const path = useLocation().pathname;
+      })
+  }
+// when user clicks on vote switch button
+  function handleUniBtn(clicked){
+        setUniqueness(!uniqueness)
+  }
+  function handleEffBtn(){
+        setEffectiveness(!effectiveness)
+  }
+  function handleInoBtn(){
+        setInnovative(!innovative)
+  }
   const path = useLocation().pathname
+  // getting idea detail from database
   useEffect(() => {
       const paths = path.split('/')
       const id = paths[paths.length - 1]
       async function getDetails() {
           await axios.get(`${server}/idea-detail/${id}`).then((response) => {
             setDetail(response.data)
-            console.log(response.data);
           }).catch(() => {
 
           })
       }
       getDetails()
-
-
   }, [])
+
+
 
   return (
     <div>
@@ -68,51 +95,36 @@ const Vote = () => {
 
             <div class="ideaCard">
               <div class="ideaCard-itemVote">
-                <h3>Innovativeness</h3>
+                <h3>Innovative</h3>
                 <p style={{ display: "flex", margin:"auto", padding: "10px" }}>
-                  <b  style={{margin:"10px"}}>NO</b>
-                  <div className="toggle" style={{margin:"10px"}}>
-                    <label class="switch">
-                      <input type="checkbox" />
-                      <span class="slider round"></span>
-                    </label>
-                  </div>
-                  <b  style={{margin:"10px"}}>Yes</b>
+                  <b  style={{margin:"10px"}}>VOTE: </b>
+                  <input type="checkbox" name='innovative' onClick={()=>handleInoBtn("innovative")} />
+              
                 </p>
               </div>
               <div class="ideaCard-itemVote">
                 <h3>Effectiveness</h3>
                 <p style={{ display: "flex", margin:"auto", padding: "10px" }}>
-                  <b  style={{margin:"10px"}}>NO</b>
-                  <div className="toggle" style={{margin:"10px"}}>
-                    <label class="switch">
-                      <input type="checkbox" />
-                      <span class="slider round"></span>
-                    </label>
-                  </div>
-                  <b  style={{margin:"10px"}}>Yes</b>
+                
+                  <b  style={{margin:"10px"}}>VOTE: </b>
+                  <input type="checkbox" name="effectiveness" onClick={()=>handleEffBtn("effectiveness")} />
+                 
                 </p>
               </div>
               <div class="ideaCard-itemVote">
                 <h3>Uniqueness</h3>
                 <p style={{ display: "flex", margin:"auto", padding: "10px" }}>
-                  <b  style={{margin:"10px"}}>NO</b>
-                  <div className="toggle" style={{margin:"10px"}}>
-                    <label class="switch">
-                      <input type="checkbox" />
-                      <span class="slider round"></span>
-                    </label>
-                  </div>
-                  <b  style={{margin:"10px"}}>Yes</b>
+                <b  style={{margin:"10px"}}>VOTE: </b>
+                <input type="checkbox" name="uniqueness" value={uniqueness} onClick={()=>handleUniBtn("uniqueness")}/>
                 </p>
               </div>
             </div>
             <br />
 
             <br />
-            <Link to={`/vote-idea/1`} class="ideabutton">
+            <button onClick={submitVote} class="ideabutton">
               Confirm Vote
-            </Link>
+            </button>
           </div>
         </section>
 

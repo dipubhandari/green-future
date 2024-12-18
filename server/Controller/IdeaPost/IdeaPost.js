@@ -18,7 +18,6 @@ class IdeaPostController {
       res.send({ error: "Please enter all the fields..." });
     } else {
       const user = await User_Model.findOne({ _id: ideator });
-      console.log(user);
       const post = await IdeaModel.create({
         ideaTitle,
         idea,
@@ -28,11 +27,9 @@ class IdeaPostController {
            });
 
       if (post) {
-        console.log('idea posted');
         res.send({ success: "You Posted a Idea successfully...." });
       }
       else{
-        console.log('something is wrong');
       }
     }
   };
@@ -41,10 +38,8 @@ class IdeaPostController {
 static IdeaDetail = async(req,res) =>{
   try {
     const data = await IdeaModel.find({_id:req.params.id})
-    console.log(data[0]);
     res.send(data[0])
   } catch (error) {
-    console.log(error);
   }
 }
 
@@ -63,6 +58,25 @@ static IdeaDetail = async(req,res) =>{
     await IdeaModel.deleteMany();
          res.send("deleted")
   }
+  static VoteIdea = async(req,res)=>{
+  try {
+    console.log(req.body);
+    const {voter,idea,innovative,effectiveness,uniqueness} = req.body
+    // const increase
+    // const update = await IdeaModel.updateOne({ _id: idea }, { 
+    //   innovative,effectiveness,uniqueness,
+    
+    //  })
+    if (update) {
+        res.send({ success_msg: "Password is changed" })
+    }
+    res.send("hello")
+  } catch (error) {
+    console.log(error);
+  }
+  }
+
+
 }
 
 export default IdeaPostController;
