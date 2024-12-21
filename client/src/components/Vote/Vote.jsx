@@ -28,19 +28,21 @@ const Vote = () => {
   const submitVote = async() =>{
     const paths = path.split('/')
     const id = paths[paths.length - 1]
-    console.log("this works");
-      console.log(innovative);
       const data= {
         uniqueness,effectiveness,innovative
       }
       const voter = localStorage.getItem('token')
       data.voter = voter
       data.idea = id
-      console.log(data);
       await axios.post(`${server}/vote-idea`,data).then((response) => {
-        console.log("response aayyoooooo");
-      }).catch(() => {
-
+        if(response.data.success_msg){
+          toast.success(response.data.success_msg)
+        }
+        if(response.data.err_msg){
+          toast.warn(response.data.err_msg)
+        }
+      }).catch((error) => {
+        console.log(error);
       })
   }
 // when user clicks on vote switch button
@@ -61,6 +63,7 @@ const Vote = () => {
       async function getDetails() {
           await axios.get(`${server}/idea-detail/${id}`).then((response) => {
             setDetail(response.data)
+
           }).catch(() => {
 
           })

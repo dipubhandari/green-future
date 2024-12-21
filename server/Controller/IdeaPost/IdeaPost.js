@@ -53,7 +53,6 @@ static IdeaDetail = async(req,res) =>{
       res.send(AllIdeas)
     } catch (error) {}
   };
-
   static deleteIdea = async(req,res)=>{
     await IdeaModel.deleteMany();
          res.send("deleted")
@@ -63,25 +62,30 @@ static IdeaDetail = async(req,res) =>{
     let countInnovative = 0
     let countEffectiveness = 0
     let countUniqueness = 0
-
     const {voter,idea,innovative,effectiveness,uniqueness} = req.body
   //  assigning value for counting votes
-  
    if(innovative){ countInnovative = 1 } else{ countInnovative=0 }
    if(effectiveness){ countEffectiveness = 1} else{ countEffectiveness =0}
    if(uniqueness){ countUniqueness = 1 }else{ countUniqueness=0}
-
    const ideaDetail = await IdeaModel.findOne({_id:idea})
-   console.log(ideaDetail);
-   console.log(ideaDetail.innovative);
-    const update = await IdeaModel.updateOne({ _id: idea }, { 
-      innovative:ideaDetail.innovative+countInnovative,effectiveness:ideaDetail.effectiveness+countEffectiveness,uniqueness:ideaDetail.uniqueness+countUniqueness,
-     })
-    if (update) {
-        res.send({ success_msg: "You voted successfully" })
-    }
+   var isExist = false
+    ideaDetail.votedBy.map((item)=>{
+      if(item == voter){
+        console.log("voter gareko xa aba hunna");
+        res.send({ err_msg: "You has already voted this idea" })
+      }
+    })
+      const update = await IdeaModel.updateOne({ _id: idea }, { 
+        innovative:ideaDetail.innovative+countInnovative,effectiveness:ideaDetail.effectiveness+countEffectiveness,uniqueness:ideaDetail.uniqueness+countUniqueness,
+        votedBy:[...ideaDetail.votedBy,voter]
+       })
+      if (update) {
+        console.log("voter vayo");
+          res.send({ success_msg: "You voted successfully" })
+      }
+    
+   
   } catch (error) {
-    console.log(error);
   }
   }
 
