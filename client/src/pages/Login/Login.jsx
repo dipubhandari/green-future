@@ -33,6 +33,7 @@ const Login = () => {
                         localStorage.setItem('token', data.user._id)
                         localStorage.setItem('currentAcccount', data.user.userType)
                         localStorage.setItem('user',JSON.stringify(data.user))
+                        localStorage.setItem('isLogin',true)
                         toast.success(data.success)
                         setTimeout(() => {
                             location('/')

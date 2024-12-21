@@ -23,16 +23,18 @@ import { FcIdea } from "react-icons/fc";
 import {checkLogin} from "../../utils/checkLogin"
 
 const Header = () => {
-  const isUserLogin = useSelector((state) => state.isLogin);
+  // const isUserLogin = useSelector((state) => state.isLogin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const [userType, settUserType] = useState('');
+  const [isUserLogin,setIsUserLogin] = useState();
 
   useEffect(()=>{
     const userType =  localStorage.getItem("currentAcccount") || 'Common User'
-    console.log(userType);
     settUserType(userType)
+    const isUserLogin = localStorage.getItem("isLogin") || false
+    setIsUserLogin(isUserLogin)
   })
 
   // alert confrim
@@ -51,6 +53,7 @@ const Header = () => {
               localStorage.removeItem("token");
               localStorage.removeItem("user");
               localStorage.setItem("currentAcccount", "Common User");
+              localStorage.removeItem('isLogin')
               dispatch(isLogin(false));
               dispatch(account("false"));
             };
@@ -120,6 +123,8 @@ const Header = () => {
           backgroundColor: userType == "voter" ? "grey" : "rgb(60 135 62)",
         }}
       >
+
+      {/* iff user is not logged in */}
         {!isUserLogin ? (
           <>
             <Link className="first" to="/login">
@@ -135,7 +140,9 @@ const Header = () => {
               <span className="right_topic">Singup</span>
             </Link>
           </>
-        ) : (
+        ) :
+        // if user is logged in 
+        (
           <>
             {userType == "ideator" ? (
               <Link to="/post" className="first">
