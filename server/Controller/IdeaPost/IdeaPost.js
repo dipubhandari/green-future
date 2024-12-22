@@ -63,7 +63,6 @@ static IdeaDetail = async(req,res) =>{
     let countEffectiveness = 0
     let countUniqueness = 0
     const {voter,idea,innovative,effectiveness,uniqueness} = req.body
-  //  assigning value for counting votes
    if(innovative){ countInnovative = 1 } else{ countInnovative=0 }
    if(effectiveness){ countEffectiveness = 1} else{ countEffectiveness =0}
    if(uniqueness){ countUniqueness = 1 }else{ countUniqueness=0}
@@ -71,7 +70,6 @@ static IdeaDetail = async(req,res) =>{
    var isExist = false
     ideaDetail.votedBy.map((item)=>{
       if(item == voter){
-        console.log("voter gareko xa aba hunna");
         res.send({ err_msg: "You has already voted this idea" })
       }
     })
@@ -80,16 +78,11 @@ static IdeaDetail = async(req,res) =>{
         votedBy:[...ideaDetail.votedBy,voter]
        })
       if (update) {
-        console.log("voter vayo");
           res.send({ success_msg: "You voted successfully" })
       }
-    
-   
   } catch (error) {
   }
   }
-
-
 }
 
 export default IdeaPostController;

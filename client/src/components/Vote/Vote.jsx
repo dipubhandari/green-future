@@ -13,7 +13,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Vote = () => {
-  //
   const dispatch = useDispatch();
   const [ideaDetail, setDetail] = useState({
     votedBy:[],
@@ -63,16 +62,11 @@ const Vote = () => {
       async function getDetails() {
           await axios.get(`${server}/idea-detail/${id}`).then((response) => {
             setDetail(response.data)
-
           }).catch(() => {
-
           })
       }
       getDetails()
   }, [])
-
-
-
   return (
     <div>
       <ToastContainer />
@@ -102,7 +96,6 @@ const Vote = () => {
                 <p style={{ display: "flex", margin:"auto", padding: "10px" }}>
                   <b  style={{margin:"10px"}}>VOTE: </b>
                   <input type="checkbox" name='innovative' onClick={()=>handleInoBtn("innovative")} />
-              
                 </p>
               </div>
               <div class="ideaCard-itemVote">
@@ -111,7 +104,6 @@ const Vote = () => {
                 
                   <b  style={{margin:"10px"}}>VOTE: </b>
                   <input type="checkbox" name="effectiveness" onClick={()=>handleEffBtn("effectiveness")} />
-                 
                 </p>
               </div>
               <div class="ideaCard-itemVote">
@@ -123,18 +115,15 @@ const Vote = () => {
               </div>
             </div>
             <br />
-
             <br />
             <button onClick={submitVote} class="ideabutton">
               Confirm Vote
             </button>
           </div>
         </section>
-
         <section className="other_ideas"></section>
       </div>
     </div>
   );
 };
-
 export default Vote;

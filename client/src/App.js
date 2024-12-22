@@ -22,22 +22,18 @@ import Vote from "./components/Vote/Vote";
 
 function App() {
   const isAuth = useSelector((state) => state.isLogin);
-  const [userType, setUserType] = useState('Common User')
-  const dispatch = useDispatch();
-  const [isLogin,setIsLogin] = useState(true)
-
+  const [userType, setUserType] = useState(localStorage.getItem('currentAcccount' || "Common User"))
+  const [isLogin,setIsLogin] = useState(localStorage.getItem('isLogin'))
   // checking if the user is logged in or not
   useEffect(() => {
     async function checkLogin() {
       const token = localStorage.getItem("token");
       if (token) {
         await axios.post(`${server}/checklogin`, { token }).then((data) => {
-          dispatch(isLogin(data.data.isLogin));
           if (data.data.user) {
-            console.log(JSON.parse(localStorage.getItem('user')).userType);
             const currentUser = JSON.parse(localStorage.getItem('user')).userType || "Common User"
             setUserType(currentUser)
-            dispatch(account(data.data.user.accountType));
+            console.log(currentUser);
           } else {
             // dispatch(account("N/A"));
           }
@@ -59,10 +55,10 @@ function App() {
           <Route
             path="/"
             element={
-              userType == "ideator" ? (
+              (userType == "ideator" && isLogin == true) ? (
                 <IdeatorHome />
               ) : (
-                <AnalyzerHome isLogin={isAuth} />
+                <AnalyzerHome/>
               )
             }
           />
@@ -94,7 +90,7 @@ function App() {
         
             <Route
               path="/post-idea"
-              element={isAuth ? <PostIdea /> : <Login />}
+              element={isLogin ? <PostIdea /> : <Login />}
             />
        
 
