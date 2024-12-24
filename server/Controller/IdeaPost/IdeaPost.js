@@ -83,6 +83,17 @@ static IdeaDetail = async(req,res) =>{
   } catch (error) {
   }
   }
+  static deleteIdea = async(req,res) =>{
+    const id = req.body.id
+    console.log(id);
+   const delete_query = await IdeaModel.deleteOne({_id:id});
+   if(delete_query){
+    res.send({success_msg:"Idea deleted successfully"})
+   }
+   else{
+    res.send({error_msg:"Idea deleted successfully"})
+   }
+  }
 }
 
 export default IdeaPostController;

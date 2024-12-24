@@ -19,6 +19,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import IdeaDetail from "./components/IdeaDetail/IdeaDetail";
 import Vote from "./components/Vote/Vote";
+import Admin from "./pages/Admin/Admin";
 
 function App() {
   const isAuth = useSelector((state) => state.isLogin);
@@ -92,11 +93,8 @@ function App() {
               path="/post-idea"
               element={isLogin ? <PostIdea /> : <Login />}
             />
-       
-
-
-          {/* routes for jobseeker profile */}
-        
+          
+          <Route path="/admin" element={<Admin/>} />
           <Route path="/our-goal" element={<Goal/>} />
           <Route path="vote-idea/:id" element={(isLogin)?<Vote/>:<Login/>}/>
           <Route path="/idea-detail/:ideaId" element={(isLogin)?<IdeaDetail/>:<Login/>} />
