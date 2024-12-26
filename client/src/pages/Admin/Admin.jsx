@@ -11,7 +11,8 @@ const Admin = () => {
 
     function handleIncentive(){
 
-    }
+    }  
+    
     async function handleDelete(id){
         console.log(id);
         console.log(server);
