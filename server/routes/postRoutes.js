@@ -10,6 +10,9 @@ postRoutes.post('/vote-idea', IdeaPostController.VoteIdea)
 
 postRoutes.get('/all-ideas', IdeaPostController.IdeaApi)
 postRoutes.post('/delete-idea', IdeaPostController.deleteIdea)
+// route for user ideas in home idea page for ideator
+postRoutes.get('/user-ideas/:user', IdeaPostController.IdeatorIdeas)
+
 
 
 export default postRoutes

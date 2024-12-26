@@ -8,6 +8,7 @@ const IdeaSchema = new mongoose.Schema({
     ideatorName:{type:String},
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now() },
+    incentive:{type: Boolean,default:false},
     likes:[],
     dislikes:[],
     isSelect:{type:String,default:false},

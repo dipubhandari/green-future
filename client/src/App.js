@@ -32,9 +32,10 @@ function App() {
       if (token) {
         await axios.post(`${server}/checklogin`, { token }).then((data) => {
           if (data.data.user) {
-            const currentUser = JSON.parse(localStorage.getItem('user')).userType || "Common User"
+            const currentUser = localStorage.getItem('currentAcccount') || "Common User"
             setUserType(currentUser)
             console.log(currentUser);
+             console.log(localStorage.getItem('isLogin'));
           } else {
             // dispatch(account("N/A"));
           }
@@ -56,7 +57,7 @@ function App() {
           <Route
             path="/"
             element={
-              (userType == "ideator" && isLogin == true) ? (
+              (userType == "ideator") ? (
                 <IdeatorHome />
               ) : (
                 <AnalyzerHome/>

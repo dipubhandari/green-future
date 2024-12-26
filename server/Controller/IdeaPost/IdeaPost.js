@@ -85,7 +85,6 @@ static IdeaDetail = async(req,res) =>{
   }
   static deleteIdea = async(req,res) =>{
     const id = req.body.id
-    console.log(id);
    const delete_query = await IdeaModel.deleteOne({_id:id});
    if(delete_query){
     res.send({success_msg:"Idea deleted successfully"})
@@ -93,6 +92,25 @@ static IdeaDetail = async(req,res) =>{
    else{
     res.send({error_msg:"Idea deleted successfully"})
    }
+  }
+
+  // fucntiion for getting the ideas for the particular ideator
+  static IdeatorIdeas  = async(req,res) =>{
+    try {
+      const user = req.params.user
+     const ideas = await IdeaModel.find({ideatorId:user});
+     console.log(ideas);
+   if(ideas){
+    res.send(ideas)
+   }
+   else{
+    res.send({error_msg:"Idea deleted successfully"})
+   }
+  
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 }
 
