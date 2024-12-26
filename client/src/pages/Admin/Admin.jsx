@@ -13,7 +13,6 @@ const Admin = () => {
 
     }  
     async function handleDelete(id){
-
         await axios.post(`${server}/delete-idea`,{id}).then((response) => {
             if(response.data.success_msg){
                   toast.success(response.data.success_msg)
