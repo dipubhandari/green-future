@@ -12,10 +12,8 @@ const Admin = () => {
     function handleIncentive(){
 
     }  
-    
     async function handleDelete(id){
-        console.log(id);
-        console.log(server);
+
         await axios.post(`${server}/delete-idea`,{id}).then((response) => {
             if(response.data.success_msg){
                   toast.success(response.data.success_msg)
