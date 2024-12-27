@@ -99,7 +99,6 @@ static IdeaDetail = async(req,res) =>{
     try {
       const user = req.params.user
      const ideas = await IdeaModel.find({ideatorId:user});
-     console.log(ideas);
    if(ideas){
     res.send(ideas)
    }
@@ -108,9 +107,28 @@ static IdeaDetail = async(req,res) =>{
    }
   
     } catch (error) {
-      console.log(error);
     }
 
+  }
+
+  static DeleteIdeatorIdeas  = async(req,res) =>{
+    try {
+     const deletedId = req.params.id
+    //  if id exist
+    if(deletedId){
+      const deleteIdea = await IdeaModel.deleteOne({_id:deletedId})
+      if(deleteIdea){
+      res.send({success_msg:"Successfully Deleted Idea..."})
+      }
+      else{
+      res.send({error_msg:"Try Again Something went wrong"})
+      }
+    }
+    else{
+      res.send({error_msg:"Try Again Something went wrong"})
+    }
+    } catch (error) {
+    }
   }
 }
 

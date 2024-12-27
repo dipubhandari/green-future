@@ -29,14 +29,6 @@ Code written by:
     margin: 0; 
 }*/
 
-body {
-    min-height: 100vh;
-    background: url(images/html_table.jpg) center / cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 main.table {
     width: 82vw;
     height: 90vh;
