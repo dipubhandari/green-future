@@ -9,8 +9,18 @@ const Admin = () => {
     // state for the ideas
     const [ideas,setIdeas] = useState([])
 
-    function handleIncentive(){
-
+    async function handleIncentive(id){
+         console.log(id);
+         await axios.put(`${server}/provide-incentive`,{id}).then((response) => {
+            if(response.data.success_msg){
+                  toast.success(response.data.success_msg)
+            }
+            if(response.data.error_msg){
+                toast.success(response.data.error_msg)
+          }
+           }).catch((err) => {
+            console.log(err);
+           })
     }  
     async function handleDelete(id){
         await axios.post(`${server}/delete-idea`,{id}).then((response) => {
@@ -42,7 +52,9 @@ getIdeas()
     },[])
   return (
    <>
-                   <ToastContainer />
+<div className="body">
+    
+<ToastContainer />
    
    <div classNameName="adminContainer">
    <main className="table" id="customers_table">
@@ -64,6 +76,7 @@ getIdeas()
                         <th> Posted By <span className="icon-arrow"></span></th>
                         <th> Idea Title <span className="icon-arrow"></span></th>
                         <th> Idea Category <span className="icon-arrow"></span></th>
+                        <th> Total Votes <span className="icon-arrow"></span></th>
                         <th> Action <span className="icon-arrow"></span></th>
                         <th> Provide Incentive <span className="icon-arrow"></span></th>
                     </tr>
@@ -77,10 +90,18 @@ getIdeas()
                         <td> {item.ideatorName}</td>
                         <td> {item.ideaTitle} </td>
                         <td> {item.ideaCategory} </td>
+                        <td> {item.votedBy.length} </td>
                         <td>
                             <p className="status cancelled" onClick={()=>{handleDelete(item._id)}} style={{cursor:"pointer"}}>Delete</p>
                         </td>
-                        <td><p className="status delivered" onClick={handleIncentive} style={{cursor:"pointer"}}>Provide Incentive</p>
+                        <td>
+                            {
+                                (item.incentive)
+                                ?
+                                <p className="status warning " onClick={()=>{handleIncentive(item._id)}} style={{cursor:"pointer"}}>Remove Incentive</p>
+                                :
+                                <p className="status delivered" onClick={()=>{handleIncentive(item._id)}} style={{cursor:"pointer"}}>Provide Incentive</p>
+                            }
                         </td>
                     </tr>
                         </>
@@ -92,6 +113,7 @@ getIdeas()
         </section>
     </main>
    </div>
+</div>
    </>
   )
 }

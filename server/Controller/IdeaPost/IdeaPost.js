@@ -130,6 +130,28 @@ static IdeaDetail = async(req,res) =>{
     } catch (error) {
     }
   }
+  // incentive 
+  static Incentive = async(req,res) =>{
+  try {
+    const id = req.body.id
+   if(id){
+    const currentIncentive = await IdeaModel.findOne({_id:id})
+    const provideIncentive = await IdeaModel.updateOne({_id:id},{incentive:!currentIncentive})
+    if(provideIncentive){
+      res.send({success_msg:"Successfully done...."})
+    }
+    else{
+    res.send({error_msg:"Something went wrong"})
+
+    }
+   }
+   else{
+    res.send({error_msg:"Something went wrong"})
+   }
+  } catch (error) {
+    console.log(error);
+  }
+  }
 }
 
 export default IdeaPostController;

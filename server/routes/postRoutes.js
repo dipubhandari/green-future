@@ -9,11 +9,15 @@ postRoutes.get('/idea-detail/:id', IdeaPostController.IdeaDetail)
 postRoutes.post('/vote-idea', IdeaPostController.VoteIdea)
 
 postRoutes.get('/all-ideas', IdeaPostController.IdeaApi)
+
 postRoutes.post('/delete-idea', IdeaPostController.deleteIdea)
 // route for user ideas in home idea page for ideator
 postRoutes.get('/user-ideas/:user', IdeaPostController.IdeatorIdeas)
 // route to delete the idea of the ideator
 postRoutes.delete('/delete-ideator-idea/:id', IdeaPostController.DeleteIdeatorIdeas)
+
+// incentive routes
+postRoutes.put('/provide-incentive', IdeaPostController.Incentive)
 
 
 
