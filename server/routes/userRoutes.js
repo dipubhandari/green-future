@@ -1,6 +1,5 @@
 import express from 'express'
 import UserController from '../Controller/User/UserController.js'
-import JobSeekerController from '../Controller/JobSeeker/JobSeeker.js'
 import multer from 'multer'
 
 const userRoutes = express.Router()

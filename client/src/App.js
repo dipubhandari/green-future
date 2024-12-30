@@ -20,6 +20,7 @@ import Footer from "./components/Footer/Footer";
 import IdeaDetail from "./components/IdeaDetail/IdeaDetail";
 import Vote from "./components/Vote/Vote";
 import Admin from "./pages/Admin/Admin";
+import Incentive from "./pages/Incentive/Incentive";
 
 function App() {
   const isAuth = useSelector((state) => state.isLogin);
@@ -83,6 +84,7 @@ function App() {
           {/* login */}
           {/* contact us route */}
           <Route path="/contact-us" element={<ContactUs/>} />
+          <Route path="/incentive" element={<Incentive/>} />
 
           {/* signup for new employer */}
           <Route path="/create-new-user" element={<CreateAccount />} />

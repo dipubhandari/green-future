@@ -53,7 +53,7 @@ static IdeaDetail = async(req,res) =>{
       res.send(AllIdeas)
     } catch (error) {}
   };
-  static deleteIdea = async(req,res)=>{
+  static deleteAllIdeas = async(req,res)=>{
     await IdeaModel.deleteMany();
          res.send("deleted")
   }
@@ -136,7 +136,8 @@ static IdeaDetail = async(req,res) =>{
     const id = req.body.id
    if(id){
     const currentIncentive = await IdeaModel.findOne({_id:id})
-    const provideIncentive = await IdeaModel.updateOne({_id:id},{incentive:!currentIncentive})
+    const provideIncentive = await IdeaModel.updateOne({_id:id},{incentive:!currentIncentive.incentive})
+    console.log(provideIncentive);
     if(provideIncentive){
       res.send({success_msg:"Successfully done...."})
     }
@@ -149,7 +150,6 @@ static IdeaDetail = async(req,res) =>{
     res.send({error_msg:"Something went wrong"})
    }
   } catch (error) {
-    console.log(error);
   }
   }
 }

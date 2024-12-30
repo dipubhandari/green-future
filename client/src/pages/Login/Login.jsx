@@ -21,36 +21,47 @@ const Login = () => {
         if (!(email && password)) {
             toast.warn('Enter the details')    }
         else {
-            await fetch(`${server}/login`, {
-                method: 'POST',
-                body: JSON.stringify({ email, password }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log(data.user)
-                        localStorage.setItem('token', data.user._id)
-                        localStorage.setItem('currentAcccount', data.user.userType)
-                        localStorage.setItem('user',JSON.stringify(data.user))
-                        localStorage.setItem('isLogin',true)
-                        toast.success(data.success)
-                        setTimeout(() => {
-                            location('/')
-                        }, 1000)
-                        dispatch(account(data.user.account))
-                        dispatch(isLogin(true))
-                        toast.success('Login...')
-                    }
-                    if (data.success) {
-                        localStorage.setItem('token', data.token);
-                    }
-
-                    if (data.error_msg) {
-                        toast.warn(data.error_msg)
-                    }
+            if(email == 'user@admin.com' && password == 'admin@123'){
+            //  its admin setup login
+                            localStorage.setItem('currentAcccount', "admin")
+                            localStorage.setItem('isLogin', true)
+                            toast.success("You Are Logged In as admin")
+                            setTimeout(() => {
+                                location('/admin')
+                            }, 1000)
+            }
+            else{
+                await fetch(`${server}/login`, {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password }),
+                    headers: { 'Content-Type': 'application/json' }
                 })
-                .catch(error => console.error('Error:', error));
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log(data.user)
+                            localStorage.setItem('token', data.user._id)
+                            localStorage.setItem('currentAcccount', data.user.userType)
+                            localStorage.setItem('user',JSON.stringify(data.user))
+                            localStorage.setItem('isLogin',true)
+                            toast.success(data.success)
+                            setTimeout(() => {
+                                location('/')
+                            }, 1000)
+                            dispatch(account(data.user.account))
+                            dispatch(isLogin(true))
+                            toast.success('Login...')
+                        }
+                        if (data.success) {
+                            localStorage.setItem('token', data.token);
+                        }
+    
+                        if (data.error_msg) {
+                            toast.warn(data.error_msg)
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
         }
     }
 

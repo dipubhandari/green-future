@@ -3,20 +3,23 @@ import "./Admin.css"
 import axios from 'axios'
 import {server} from "../../config"
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
  
     // state for the ideas
     const [ideas,setIdeas] = useState([])
+        const location = useNavigate()
 
     async function handleIncentive(id){
          console.log(id);
          await axios.put(`${server}/provide-incentive`,{id}).then((response) => {
             if(response.data.success_msg){
                   toast.success(response.data.success_msg)
+                  window.location.reload();
             }
             if(response.data.error_msg){
-                toast.success(response.data.error_msg)
+                toast.warn(response.data.error_msg)
           }
            }).catch((err) => {
             console.log(err);
@@ -36,6 +39,13 @@ const Admin = () => {
     }
 
     useEffect(()=>{
+        // checking admin is logged in or not
+        const userType = localStorage.getItem('currentAcccount')
+        if(userType != 'admin'){
+            setTimeout(() => {
+                location('/login')
+            }, 1000)
+        }
 //    getting ideas
 async function getIdeas() {
     await axios.get(`${server}/all-ideas`).then((response) => {

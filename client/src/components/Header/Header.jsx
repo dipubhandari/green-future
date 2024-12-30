@@ -56,6 +56,8 @@ const Header = () => {
               localStorage.removeItem('isLogin')
               dispatch(isLogin(false));
               dispatch(account("false"));
+              window.location.reload();
+
             };
             logout();
           },
@@ -91,12 +93,21 @@ const Header = () => {
         </Link>
         {/* show post ideator button only if user is ideator */}
         {userType == "ideator" ? (
+        <>
           <Link to="/post-idea" className="link_row">
             <b>
               <FcIdea />
             </b>{" "}
             <Link to="/post-idea" className="linkheader">Post Idea</Link>
           </Link>
+          <Link to="/incentive" className="link_row">
+            <b>
+              <FcIdea />
+            </b>{" "}
+            <Link to="/incentive" className="linkheader">Incentive</Link>
+          </Link>
+          </>
+          
         ) : (
           ""
         )}
